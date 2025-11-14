@@ -1,0 +1,11 @@
+flask
+flask-cors
+openai-whisper
+transformers
+diffusers
+torch
+numpy
+Pillow
+accelerate
+safetensors
+gunicorn
