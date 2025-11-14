@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Sketch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to 🎙️ Speech & Sketch 🎨</h1>
+    </header>
+
+    <main class="container">
+        <div class="left-panel">
+            <h2>Controls</h2>
+            
+            <form id="audio-form">
+                <div class="form-group">
+                    <label for="audio-file">1. Upload Audio File (if you have one):</label>
+                    <input type="file" id="audio-file" accept="audio/*">
+                </div>
+                <div class="form-group">
+                    <label>Audio Language:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="lang-english" name="language" value="english" checked>
+                        <label for="lang-english">English</label>
+                        <input type="radio" id="lang-other" name="language" value="other">
+                        <label for="lang-other">Other (Translate to English)</label>
+                    </div>
+                </div>
+                <button type="submit" id="transcribe-button">Transcribe Audio</button>
+            </form>
+
+            <div class="or-separator">OR</div>
+
+            <div class="form-group">
+                <label for="prompt-input">2. Type or Edit Your Prompt:</label>
+                <textarea id="prompt-input" rows="4" placeholder="Type your prompt here, or transcribe audio with (win + H)"></textarea>
+            </div>
+            
+            <button id="generate-button">Generate Sketch</button>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p id="loading-text">Processing...</p>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <h2>Generated Image</h2>
+            <div class="image-container">
+                <img id="generated-image" src="https://cdn.vectorstock.com/i/1000v/09/25/hand-drawn-speech-bubble-sketch-vector-27180925.jpg" alt="Generated sketch will appear here.">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>@Rahul Cheedella | 2025</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
