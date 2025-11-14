@@ -11,9 +11,6 @@ from PIL import Image
 from transformers import pipeline
 from diffusers import StableDiffusionPipeline
 
-# ───────────────────────────────────────────────
-# Flask Configuration
-# ───────────────────────────────────────────────
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
@@ -23,10 +20,6 @@ os.makedirs(GENERATED_FOLDER, exist_ok=True)
 logging.basicConfig(level=logging.INFO)
 app.logger.setLevel(logging.INFO)
 
-
-# ───────────────────────────────────────────────
-# FFmpeg Check
-# ───────────────────────────────────────────────
 def check_ffmpeg():
     try:
         subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
@@ -34,18 +27,10 @@ def check_ffmpeg():
     except Exception:
         app.logger.warning("⚠️ FFmpeg not installed. Whisper may not handle MP3 properly.")
 
-
-# ───────────────────────────────────────────────
-# Global Model Variables
-# ───────────────────────────────────────────────
 whisper_model = None
 translator = None
 diffusion_pipe = None
 
-
-# ───────────────────────────────────────────────
-# Load Models
-# ───────────────────────────────────────────────
 def load_models():
     global whisper_model, translator, diffusion_pipe
 
@@ -74,11 +59,6 @@ def load_models():
 
     app.logger.info("✅ Stable Diffusion ready!")
 
-
-# ───────────────────────────────────────────────
-# Routes
-# ───────────────────────────────────────────────
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -93,10 +73,6 @@ def static_files(filename):
 def generated_file(filename):
     return send_from_directory(GENERATED_FOLDER, filename)
 
-
-# ───────────────────────────────────────────────
-# AUDIO TRANSCRIPTION
-# ───────────────────────────────────────────────
 @app.route('/transcribe-audio', methods=['POST'])
 def transcribe_audio_endpoint():
     global whisper_model, translator
@@ -147,10 +123,6 @@ def transcribe_audio_endpoint():
             os.remove(tmp_file_path)
             app.logger.info("🧹 Temp audio deleted.")
 
-
-# ───────────────────────────────────────────────
-# GENERATE IMAGE (TEXT TO IMAGE)
-# ───────────────────────────────────────────────
 @app.route('/generate-image', methods=['POST'])
 def generate_image_endpoint():
     global diffusion_pipe, translator
@@ -186,10 +158,6 @@ def generate_image_endpoint():
         app.logger.error(f"❌ Image generation error: {e}")
         return jsonify({"error": str(e)}), 500
 
-
-# ───────────────────────────────────────────────
-# MAIN
-# ───────────────────────────────────────────────
 if __name__ == "__main__":
     app.logger.info("🚀 Checking environment...")
     check_ffmpeg()
@@ -199,3 +167,4 @@ if __name__ == "__main__":
 
     app.logger.info("✅ Server is ready at http://127.0.0.1:5000/")
     app.run(debug=True, host="127.0.0.1", port=5000)
+
