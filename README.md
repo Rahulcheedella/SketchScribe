@@ -27,7 +27,7 @@ This project is lightweight and perfect for ML portfolios.
 
 ## 🖼 Screenshot
 
-![Screenshot](images/output.png)
+![Screenshot](images/Output.png)
 
 ## 📂 Folder Structure
 
